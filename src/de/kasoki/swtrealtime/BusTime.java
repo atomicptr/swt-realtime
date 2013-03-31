@@ -18,9 +18,26 @@ import org.json.JSONException;
 
 public class BusTime {
 	
+	private int number;
+	private String destination;
+	private Date arrivalTime;
+	private Date expectedArrivalTime;
+	
+	private SimpleDateFormat dateFormat;
+	
 	private BusTime(int number, String destination, Date arrivalTime, Date expectedArrivalTime) {
-		SimpleDateFormat date = new SimpleDateFormat("HH:MM");
-		System.out.println(number + " " + destination + ", " + date.format(arrivalTime) + ", " + date.format(expectedArrivalTime));
+		this.dateFormat = new SimpleDateFormat("HH:MM");
+		
+		this.number = number;
+		this.destination = destination;
+		this.arrivalTime = arrivalTime;
+		this.expectedArrivalTime = expectedArrivalTime;
+	}
+	
+	@Override
+	public String toString() {
+		return number + ": " + destination + " [Arrival Time: " +
+				dateFormat.format(arrivalTime) + " / Expected: " + dateFormat.format(expectedArrivalTime) + " ]";
 	}
 	
 	public static List<BusTime> fromStopCode(String stopCode) {
@@ -77,7 +94,7 @@ public class BusTime {
 	
 	private static List<BusTime> parseResponse(String response) throws Exception {
 		List<BusTime> busTimeList = new ArrayList<BusTime>();
-		System.out.println(response);
+		
 		if(response.startsWith("//OK")) {
 			String jsonString = response.substring(4, response.length());
 			
@@ -85,8 +102,6 @@ public class BusTime {
 				JSONArray json = new JSONArray(jsonString);
 				
 				JSONArray innerInformations = new JSONArray(json.get(json.length() - 3).toString());
-				System.out.println(json.get(json.length() - 3).toString());
-				int numberOfObjects = json.length();
 				
 				for(int i = 0; i < Math.floor(json.length() / 11); i++) {
 					int number = Integer.parseInt(getItemFromInnerInformationList(innerInformations, json.getInt(i * 11 + 5)));
@@ -113,8 +128,8 @@ public class BusTime {
 	public static void main(String[] args) {
 		List<BusTime> list = BusTime.fromStopCode("HBF");
 		
-		/*for(BusTime busTime : list) {
+		for(BusTime busTime : list) {
 			System.out.println(busTime);
-		}*/
+		}
 	}
 }
