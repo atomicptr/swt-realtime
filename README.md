@@ -12,6 +12,11 @@ Beschreibung (Deutsch)
 -----------------------
 **Weder dieses Projekt noch der Autor haben in irgendeiner Weise einen Bezug zu den Stadtwerken Trier!** Diese Bibliothek parst die [SWT Onlineinfo](http://212.18.193.124/onlineinfo/Onlineinfo.html) Webseite.
 
+Dependencies
+-------------
+
+* [org.json](http://json.org/java)
+
 Special Thanks
 ---------------
 
