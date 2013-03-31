@@ -126,7 +126,7 @@ public class BusTime {
 	}
 	
 	public static void main(String[] args) {
-		List<BusTime> list = BusTime.fromStopCode("HBF");
+		List<BusTime> list = BusTime.fromStopCode("aache");
 		
 		for(BusTime busTime : list) {
 			System.out.println(busTime);
