@@ -1,7 +1,7 @@
 package de.kasoki.swtrealtime;
 
 public enum BusStop {
-	
+	// This list was automatic generated, if you find any mistakes please correct them! Thanks :)
 	AACHENERSTR("aache"),
 	ADASTR("adast"),
 	ADOLPHKOLPINGSTR("kolpi"),
@@ -73,7 +73,7 @@ public enum BusStop {
 	DIEDENHOFENERSTR("diede"),
 	DOMAENENSTR("domae"),
 	DONAUSTR("donau"),
-	EHRANGBAHNHO("egbhf"),
+	EHRANGBAHNHOF("egbhf"),
 	EHRANGHINTEREHEID("EGH"),
 	EHRANGSCHUL("egsch"),
 	EHRANGSPORTPLAT("sport"),
@@ -84,7 +84,8 @@ public enum BusStop {
 	EURENFRIEDHO("EUF"),
 	EURENHELENENBRUNNE("EUH"),
 	EURENLUSTEINBSTR("EUL"),
-	FACHHOCHSCHUL("FHS"),
+	FACHHOCHSCHULE("FHS"),
+	HOCHSCHULE("FHS"),
 	FANDELBOR("fande"),
 	FELDSTRMUTTERHAU("felds"),
 	FEYENGRAFSCHAF("FEY"),
@@ -122,7 +123,7 @@ public enum BusStop {
 	HANDWERKSKAMME("HWK"),
 	HANSBOECKLERALLE("hansb"),
 	HANSMSCHLEYERSTR("hansm"),
-	HAUPTBAHNHO("HBF"),
+	HAUPTBAHNHOF("HBF"),
 	HAUPTFRIEDHO("haupt"),
 	HEIDESTUF("heist"),
 	HEILIGKTREVERERST("HKT"),

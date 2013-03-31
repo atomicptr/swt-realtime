@@ -130,7 +130,7 @@ public class BusTime {
 	}
 	
 	public static void main(String[] args) {
-		List<BusTime> list = BusTime.fromStopCode(BusStop.EHRANGBAHNHO);
+		List<BusTime> list = BusTime.fromStopCode(BusStop.HAUPTBAHNHOF);
 		
 		for(BusTime busTime : list) {
 			System.out.println(busTime);
