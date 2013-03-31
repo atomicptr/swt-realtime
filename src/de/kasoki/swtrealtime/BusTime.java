@@ -8,26 +8,28 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class BusTime {
 	
-	private String serverResponse;
-	
-	private BusTime(String response) throws Exception {
-		this.serverResponse = response;
-		
-		if(response.startsWith("//OK")) {
-			System.out.println("OK!");
-		} else {
-			throw new Exception("Error: Invalid Response: " + response);
-		}
+	private BusTime(int number, String destination, Date arrivalTime, Date expectedArrivalTime) {
+		SimpleDateFormat date = new SimpleDateFormat("HH:MM");
+		System.out.println(number + " " + destination + ", " + date.format(arrivalTime) + ", " + date.format(expectedArrivalTime));
 	}
 	
-	public static BusTime fromStopCode(String stopCode) throws Exception {
+	public static List<BusTime> fromStopCode(String stopCode) {
 		String url = "http://212.18.193.124/onlineinfo/onlineinfo/stopData";
 		String charset = "UTF-8";
 		
 		String response = "";
+		
+		List<BusTime> busTimeList = null;
 		
 		try {
 			// setup connection
@@ -59,20 +61,60 @@ public class BusTime {
 			
 			reader.close();
 			
+			// parse response
+			busTimeList = BusTime.parseResponse(response);
+			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		
-		return new BusTime(response);
-	}
-	
-	public static void main(String[] args) {
-		try {
-			BusTime time = BusTime.fromStopCode("HBF");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return busTimeList;
+	}
+	
+	private static List<BusTime> parseResponse(String response) throws Exception {
+		List<BusTime> busTimeList = new ArrayList<BusTime>();
+		System.out.println(response);
+		if(response.startsWith("//OK")) {
+			String jsonString = response.substring(4, response.length());
+			
+			try {
+				JSONArray json = new JSONArray(jsonString);
+				
+				JSONArray innerInformations = new JSONArray(json.get(json.length() - 3).toString());
+				System.out.println(json.get(json.length() - 3).toString());
+				int numberOfObjects = json.length();
+				
+				for(int i = 0; i < Math.floor(json.length() / 11); i++) {
+					int number = Integer.parseInt(getItemFromInnerInformationList(innerInformations, json.getInt(i * 11 + 5)));
+					String destination = getItemFromInnerInformationList(innerInformations, json.getInt(i * 11 + 6));
+					Date arrivalTime = new Date(json.getLong(i * 11 + 2) + json.getLong(i * 11 + 3));
+					Date expectedArrivalTime = new Date(json.getLong(i * 11 + 7) + json.getLong(i * 11 + 8));
+					
+					busTimeList.add(new BusTime(number, destination, arrivalTime, expectedArrivalTime));
+				}
+			} catch(JSONException e) {
+				e.printStackTrace();
+			}
+		} else {
+			throw new Exception("Error: Invalid Response: " + response);
+		}
+		
+		return busTimeList;
+	}
+	
+	private static String getItemFromInnerInformationList(JSONArray innerInformations, int index) {
+		return innerInformations.getString(index - 1);
+	}
+	
+	public static void main(String[] args) {
+		List<BusTime> list = BusTime.fromStopCode("HBF");
+		
+		/*for(BusTime busTime : list) {
+			System.out.println(busTime);
+		}*/
 	}
 }
