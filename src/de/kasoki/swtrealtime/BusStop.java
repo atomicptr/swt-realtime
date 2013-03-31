@@ -122,7 +122,7 @@ public enum BusStop {
 	HANDWERKSKAMME("HWK", "Handwerkskamme"),
 	HANSBOECKLERALLE("hansb", "Hans-Boeckler-Alle"),
 	HANSMSCHLEYERSTR("hansm", "Hans-M.Schleyer-Str"),
-	HAUPTBAHNHO("HBF", "Hauptbahnho"),
+	HAUPTBAHNHOF("HBF", "Hauptbahnhof"),
 	HAUPTFRIEDHO("haupt", "Hauptfriedho"),
 	HEIDESTUF("heist", "Heidestuf"),
 	HEILIGKTREVERERST("HKT", "Heiligk.-Trevererst"),
