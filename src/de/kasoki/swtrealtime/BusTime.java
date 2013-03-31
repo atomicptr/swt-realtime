@@ -11,7 +11,19 @@ import java.net.URLConnection;
 
 public class BusTime {
 	
-	public static BusTime fromStopCode(String stopCode) {
+	private String serverResponse;
+	
+	private BusTime(String response) throws Exception {
+		this.serverResponse = response;
+		
+		if(response.startsWith("//OK")) {
+			System.out.println("OK!");
+		} else {
+			throw new Exception("Error: Invalid Response: " + response);
+		}
+	}
+	
+	public static BusTime fromStopCode(String stopCode) throws Exception {
 		String url = "http://212.18.193.124/onlineinfo/onlineinfo/stopData";
 		String charset = "UTF-8";
 		
@@ -47,19 +59,20 @@ public class BusTime {
 			
 			reader.close();
 			
-			System.out.println(response);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return new BusTime();
+		return new BusTime(response);
 	}
 	
 	public static void main(String[] args) {
-		BusTime time = BusTime.fromStopCode("HBF");
+		try {
+			BusTime time = BusTime.fromStopCode("HBF");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
