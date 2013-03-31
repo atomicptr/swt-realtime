@@ -40,6 +40,10 @@ public class BusTime {
 				dateFormat.format(arrivalTime) + " / Expected: " + dateFormat.format(expectedArrivalTime) + " ]";
 	}
 	
+	public static List<BusTime> fromStopCode(BusStop busStop) {
+		return BusTime.fromStopCode(busStop.getStopCode());
+	}
+	
 	public static List<BusTime> fromStopCode(String stopCode) {
 		String url = "http://212.18.193.124/onlineinfo/onlineinfo/stopData";
 		String charset = "UTF-8";
@@ -126,7 +130,7 @@ public class BusTime {
 	}
 	
 	public static void main(String[] args) {
-		List<BusTime> list = BusTime.fromStopCode("aache");
+		List<BusTime> list = BusTime.fromStopCode(BusStop.EHRANGBAHNHO);
 		
 		for(BusTime busTime : list) {
 			System.out.println(busTime);
