@@ -20,9 +20,9 @@ Dependencies
 Special Thanks
 ---------------
 
-Special thanks to [Daniel Fett](http://www.danielfett.de/) ([@dfett42](https://twitter.com/dfett42)
+Special thanks to [Daniel Fett](http://www.danielfett.de/) ([@dfett42](https://twitter.com/dfett42))
 
 Licence
 -----------
 
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the [MIT license](http://opensource.org/licenses/MIT).
