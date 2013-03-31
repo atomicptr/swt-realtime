@@ -398,4 +398,8 @@ public enum BusStop {
 	public String getStopCode() {
 		return this.stopCode;
 	}
+	
+	public String getName() {
+		return this.name;
+	}
 }

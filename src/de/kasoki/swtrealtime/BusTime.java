@@ -16,6 +16,11 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+/**
+ * Get real time information from SWT. Neither this library nor me are related to SWT.
+ * Special Thanks to Daniel Fett (@dfett42) for the sniffing.
+ * @author Christopher Kaster (@Kasoki)
+ */
 public class BusTime {
 	
 	private int number;
@@ -40,10 +45,20 @@ public class BusTime {
 				dateFormat.format(arrivalTime) + " / Expected: " + dateFormat.format(expectedArrivalTime) + " ]";
 	}
 	
+	/**
+	 * Creates a list with the next buses.
+	 * @param busStop The bus stop of interest ;).
+	 * @return
+	 */
 	public static List<BusTime> fromStopCode(BusStop busStop) {
 		return BusTime.fromStopCode(busStop.getStopCode());
 	}
 	
+	/**
+	 * Creates a list with the next buses.
+	 * @param stopCode The stop code of your bus stop.
+	 * @return
+	 */
 	public static List<BusTime> fromStopCode(String stopCode) {
 		String url = "http://212.18.193.124/onlineinfo/onlineinfo/stopData";
 		String charset = "UTF-8";
@@ -129,6 +144,10 @@ public class BusTime {
 		return innerInformations.getString(index - 1);
 	}
 	
+	/**
+	 * This is a test method which prints the next buses coming to HBF.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		List<BusTime> list = BusTime.fromStopCode(BusStop.HAUPTBAHNHOF);
 		
