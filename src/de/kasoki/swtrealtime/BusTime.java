@@ -51,11 +51,13 @@ public class BusTime {
 	private Date arrivalTime;
 	private Date expectedArrivalTime;
 	
-	private SimpleDateFormat dateFormat;
+	private static SimpleDateFormat dateFormat;
+	
+	static {
+		dateFormat = new SimpleDateFormat("HH:MM");
+	}
 	
 	private BusTime(int number, String destination, Date arrivalTime, Date expectedArrivalTime) {
-		this.dateFormat = new SimpleDateFormat("HH:MM");
-		
 		this.number = number;
 		this.destination = destination;
 		this.arrivalTime = arrivalTime;
@@ -66,6 +68,38 @@ public class BusTime {
 	public String toString() {
 		return number + ": " + destination + " [Arrival Time: " +
 				dateFormat.format(arrivalTime) + " / Expected: " + dateFormat.format(expectedArrivalTime) + " ]";
+	}
+	
+	public int getNumber() {
+		return this.number;
+	}
+	
+	public String getDestination() {
+		return this.destination;
+	}
+	
+	public Date getArrivalTime() {
+		return this.arrivalTime;
+	}
+	
+	public Date getExpectedArrivalTime() {
+		return this.expectedArrivalTime;
+	}
+	
+	/**
+	 * Set the date format (Default: HH:MM)
+	 * @param dateFormat
+	 */
+	public static void setDateFormat(String dateFormat) {
+		setDateFormat(new SimpleDateFormat(dateFormat));
+	}
+	
+	/**
+	 * Set the date format (Default: HH:MM)
+	 * @param dateFormat
+	 */
+	public static void setDateFormat(SimpleDateFormat dateFormat) {
+		BusTime.dateFormat = dateFormat;
 	}
 	
 	/**
@@ -120,7 +154,6 @@ public class BusTime {
 			
 			reader.close();
 			
-			// parse response
 			busTimeList = BusTime.parseResponse(response);
 			
 		} catch (MalformedURLException e) {
