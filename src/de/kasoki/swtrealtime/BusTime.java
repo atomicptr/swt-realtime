@@ -55,7 +55,7 @@ public class BusTime {
 	
 	private static final int MAJOR_VERSION = 0;
 	private static final int MINOR_VERSION = 1;
-	private static final int PATCH_VERSION = 1;
+	private static final int PATCH_VERSION = 3;
 	
 	static {
 		dateFormat = new SimpleDateFormat("HH:MM");
@@ -86,8 +86,16 @@ public class BusTime {
 		return this.arrivalTime;
 	}
 	
+	public String getArrivalTimeAsString() {
+		return dateFormat.format(arrivalTime);
+	}
+	
 	public Date getExpectedArrivalTime() {
 		return this.expectedArrivalTime;
+	}
+	
+	public String getExpectedArrivalTimeAsString() {
+		return dateFormat.format(expectedArrivalTime);
 	}
 	
 	public int getDelay() {
@@ -191,12 +199,22 @@ public class BusTime {
 				JSONArray innerInformations = new JSONArray(json.get(json.length() - 3).toString());
 				
 				for(int i = 0; i < Math.floor(json.length() / 11); i++) {
-					int number = Integer.parseInt(getItemFromInnerInformationList(innerInformations, json.getInt(i * 11 + 5)));
-					String destination = getItemFromInnerInformationList(innerInformations, json.getInt(i * 11 + 6));
-					Date arrivalTime = new Date(json.getLong(i * 11 + 2) + json.getLong(i * 11 + 3));
-					Date expectedArrivalTime = new Date(json.getLong(i * 11 + 7) + json.getLong(i * 11 + 8));
 					
-					busTimeList.add(new BusTime(number, destination, arrivalTime, expectedArrivalTime));
+					String numberString = getItemFromInnerInformationList(innerInformations, json.getInt(i * 11 + 5));
+					
+					try {
+						int number = Integer.parseInt(numberString);
+						String destination = getItemFromInnerInformationList(innerInformations, json.getInt(i * 11 + 6));
+						Date arrivalTime = new Date(json.getLong(i * 11 + 2) + json.getLong(i * 11 + 3));
+						Date expectedArrivalTime = new Date(json.getLong(i * 11 + 7) + json.getLong(i * 11 + 8));
+						
+						busTimeList.add(new BusTime(number, destination, arrivalTime, expectedArrivalTime));
+					} catch(Exception ex) {
+						// if this happens we've found a bus without destination or number... don't know what they
+						// are but they actually exist! Oo
+						continue;
+					}
+					
 				}
 			} catch(JSONException e) {
 				e.printStackTrace();
