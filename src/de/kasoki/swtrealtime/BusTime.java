@@ -55,7 +55,7 @@ public class BusTime {
 	
 	private static final int MAJOR_VERSION = 0;
 	private static final int MINOR_VERSION = 1;
-	private static final int PATCH_VERSION = 0;
+	private static final int PATCH_VERSION = 1;
 	
 	static {
 		dateFormat = new SimpleDateFormat("HH:MM");

@@ -387,7 +387,7 @@ public enum BusStop {
 	WALDPAETSCHERWE("wapae", "Wald-Paetscher We"),
 	WALDROSENBUNGER("waros", "Wald-Rosenbunger"),
 	WALDSCHUL("wasch", "Wald-Schul"),
-	WALDWEINBERGSWE("wawei", "Wald-Weinbergswe"),
+	WALDWEINBERGSWEG("wawei", "Wald-Weinbergsweg"),
 	WALDZOLLWE("wazol", "Wald-Zollwe"),
 	WALDSTR("walds", "Waldstr"),
 	WALLENBACHSTR("walle", "Wallenbachstr"),
@@ -423,6 +423,10 @@ public enum BusStop {
 	}
 	
 	public String getName() {
+		return this.name;
+	}
+	
+	public String toString() {
 		return this.name;
 	}
 }
