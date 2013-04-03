@@ -53,6 +53,10 @@ public class BusTime {
 	
 	private static SimpleDateFormat dateFormat;
 	
+	private static final int MAJOR_VERSION = 0;
+	private static final int MINOR_VERSION = 1;
+	private static final int PATCH_VERSION = 0;
+	
 	static {
 		dateFormat = new SimpleDateFormat("HH:MM");
 	}
@@ -66,8 +70,8 @@ public class BusTime {
 	
 	@Override
 	public String toString() {
-		return number + ": " + destination + " [Arrival Time: " +
-				dateFormat.format(arrivalTime) + " / Expected: " + dateFormat.format(expectedArrivalTime) + " ]";
+		return getNumber() + ": " + getDestination() + " [Arrival Time: " +
+				dateFormat.format(arrivalTime) + " Delay: " + getDelay() + "m ]";
 	}
 	
 	public int getNumber() {
@@ -84,6 +88,14 @@ public class BusTime {
 	
 	public Date getExpectedArrivalTime() {
 		return this.expectedArrivalTime;
+	}
+	
+	public int getDelay() {
+		long difference = expectedArrivalTime.getTime() - arrivalTime.getTime();
+		
+		int differenceMinutes = (int)(difference / (60 * 1000));
+		
+		return differenceMinutes;
 	}
 	
 	/**
@@ -198,6 +210,10 @@ public class BusTime {
 	
 	private static String getItemFromInnerInformationList(JSONArray innerInformations, int index) {
 		return innerInformations.getString(index - 1);
+	}
+	
+	public static String getVersion() {
+		return MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION;
 	}
 	
 	/**
