@@ -55,10 +55,10 @@ public class BusTime {
 	
 	private static final int MAJOR_VERSION = 0;
 	private static final int MINOR_VERSION = 1;
-	private static final int PATCH_VERSION = 3;
+	private static final int PATCH_VERSION = 5;
 	
 	static {
-		dateFormat = new SimpleDateFormat("HH:MM");
+		dateFormat = new SimpleDateFormat("HH:mm");
 	}
 	
 	private BusTime(int number, String destination, Date arrivalTime, Date expectedArrivalTime) {
@@ -228,6 +228,10 @@ public class BusTime {
 	
 	private static String getItemFromInnerInformationList(JSONArray innerInformations, int index) {
 		return innerInformations.getString(index - 1);
+	}
+	
+	public static BusTime getDummy() {
+		return new BusTime(1337, "Invalid Bus stop", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
 	}
 	
 	public static String getVersion() {
