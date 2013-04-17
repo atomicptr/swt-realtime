@@ -429,4 +429,14 @@ public enum BusStop {
 	public String toString() {
 		return this.name;
 	}
+	
+	public static BusStop getBusStopByStopCode(String stopCode) {
+		for(BusStop b : BusStop.values()) {
+			if(b.getStopCode().equals(stopCode)) {
+				return b;
+			}
+		}
+		
+		return null;
+	}
 }
