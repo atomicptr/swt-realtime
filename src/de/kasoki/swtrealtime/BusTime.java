@@ -33,6 +33,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,7 @@ import org.json.JSONException;
  * Special Thanks to Daniel Fett (@dfett42) for the sniffing.
  * @author Christopher Kaster (@Kasoki)
  */
-public class BusTime {
+public class BusTime implements Comparable<BusTime> {
 	
 	private int number;
 	private String destination;
@@ -104,6 +105,10 @@ public class BusTime {
 		int differenceMinutes = (int)(difference / (60 * 1000));
 		
 		return differenceMinutes;
+	}
+	
+	public int compareTo(BusTime other) {
+		return this.arrivalTime.compareTo(other.getArrivalTime());
 	}
 	
 	/**
@@ -244,6 +249,8 @@ public class BusTime {
 	 */
 	public static void main(String[] args) {
 		List<BusTime> list = BusTime.fromStopCode(BusStop.HAUPTBAHNHOF);
+		
+		Collections.sort(list);
 		
 		for(BusTime busTime : list) {
 			System.out.println(busTime);
