@@ -56,7 +56,7 @@ public class BusTime implements Comparable<BusTime> {
 	
 	private static final int MAJOR_VERSION = 0;
 	private static final int MINOR_VERSION = 1;
-	private static final int PATCH_VERSION = 7;
+	private static final int PATCH_VERSION = 8;
 	
 	static {
 		dateFormat = new SimpleDateFormat("HH:mm");
