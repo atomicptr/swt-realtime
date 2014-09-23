@@ -1,3 +1,5 @@
+package de.kasoki.swtrealtime
+
 object BusStop extends Enumeration {
     type BusStop = BusStopType
 

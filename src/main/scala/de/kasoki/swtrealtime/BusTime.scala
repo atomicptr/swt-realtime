@@ -1,3 +1,5 @@
+package de.kasoki.swtrealtime
+
 import scalaj.http.Http
 import org.json4s._
 import org.json4s.native.JsonMethods._
