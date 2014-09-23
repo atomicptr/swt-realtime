@@ -1,7 +1,7 @@
 object BusStop extends Enumeration {
     type BusStop = BusStopType
 
-    case class BusStopType(code:String, name:String) extends Val(code)
+    case class BusStopType(val code:String, val name:String) extends Val(code)
 
     def getBusStopByCode(code:String):BusStopType = {
         return BusStop.withName(code).asInstanceOf[BusStop.BusStopType]

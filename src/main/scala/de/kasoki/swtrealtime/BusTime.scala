@@ -6,7 +6,7 @@ import scala.collection.mutable._
 import java.util.Date
 import java.text.SimpleDateFormat;
 
-class ServerResponseException(code:Int) extends Exception("[RESPONSE CODE: " + code + "] Server returned an error.")
+class ServerResponseException(val code:Int) extends Exception("[RESPONSE CODE: " + code + "] Server returned an error.")
 
 object BusTime {
     def fromBusStop(busStop:BusStop.BusStopType):List[BusTime] = BusTime.fromStopCode(busStop.code)
@@ -70,11 +70,7 @@ object BusTime {
     }
 }
 
-class BusTime private(_number:Int, _destination:String, _arrival:Date, _expectedArrival:Date) extends Ordered[BusTime] {
-    val number:Int = _number
-    val destination:String = _destination
-    val arrival:Date = _arrival
-    val expectedArrival:Date = _expectedArrival
+class BusTime private(val number:Int, val destination:String, val arrival:Date, val expectedArrival:Date) extends Ordered[BusTime] {
     var format:SimpleDateFormat = new SimpleDateFormat("HH:mm")
 
     def compare(other:BusTime) = arrival.compareTo(other.arrival)
