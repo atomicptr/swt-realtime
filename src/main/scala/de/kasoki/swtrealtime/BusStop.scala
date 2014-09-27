@@ -1,5 +1,7 @@
 package de.kasoki.swtrealtime
 
+import scala.collection.immutable.SortedSet
+
 object BusStop extends Enumeration {
     type BusStop = BusStopType
 
@@ -19,6 +21,10 @@ object BusStop extends Enumeration {
         }
 
         return null
+    }
+
+    def names:SortedSet[String] = {
+        for(busStop <- BusStop.values) yield busStop.asInstanceOf[BusStopType].name
     }
 
     protected final def BusStopValue(code:String, name:String):BusStopType = {

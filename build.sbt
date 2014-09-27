@@ -1,6 +1,6 @@
 name := "swt-realtime"
 
-version := "0.2.1"
+version := "0.2.3"
 
 organization := "de.kasoki"
 
