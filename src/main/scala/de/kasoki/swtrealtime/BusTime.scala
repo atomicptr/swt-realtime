@@ -1,6 +1,7 @@
 package de.kasoki.swtrealtime
 
 import scalaj.http.Http
+import scalaj.http.HttpOptions
 import org.json4s._
 import org.json4s.native.JsonMethods._
 import scala.collection.mutable._
@@ -11,6 +12,8 @@ import java.text.SimpleDateFormat;
 class ServerResponseException(val code:Int) extends Exception("[RESPONSE CODE: " + code + "] Server returned an error.")
 
 object BusTime {
+    var timeout:Int = 500
+
     def fromBusStop(busStop:BusStop.BusStopType):List[BusTime] = BusTime.fromStopCode(busStop.code)
 
     def fromStopCode(stopCode:String):List[BusTime] = {
@@ -20,6 +23,8 @@ object BusTime {
         val body = "5|0|6|http://212.18.193.124/onlineinfo/onlineinfo/|7E201FB9D23B0EA0BDBDC82C554E92FE|com.initka.onlineinfo.client.services.StopDataService|getDepartureInformationForStop|java.lang.String/2004016611|" + stopCode + "|1|2|3|4|1|5|6|"
 
         val response = Http.postData(url, body)
+            .option(HttpOptions.connTimeout(timeout))
+            .option(HttpOptions.readTimeout(timeout))
             .header("Accept-Charset", charset)
             .header("X-GWT-Module-Base", "http://212.18.193.124/onlineinfo/onlineinfo/")
             .header("X-GWT-Permutation", "D8AB656D349DD625FC1E4BA18B0A253C")
@@ -88,7 +93,7 @@ class BusTime private(val number:Int, val destination:String, val arrival:Date, 
     override def toString:String = asString
 
     def asString:String = {
-        return "[" + number + "] " + destination + ", arrival: " + arrivalTimeAsString + " + " + delay
+        return "[" + number + "] " + destination + ", arrival: " + arrivalTimeAsString + " + " + delay + "m"
     }
 
     def arrivalTimeAsString:String = {
