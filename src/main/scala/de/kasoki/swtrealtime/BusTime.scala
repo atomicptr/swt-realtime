@@ -5,6 +5,7 @@ import scalaj.http.HttpOptions
 import org.json4s._
 import org.json4s.native.JsonMethods._
 import scala.collection.mutable._
+import scala.math.pow
 
 import java.util.Date
 import java.text.SimpleDateFormat;
@@ -44,23 +45,22 @@ object BusTime {
         }
 
         if(text.startsWith("//OK")) {
-            val jsonString = text.substring(4, text.length)
+            val jsonString = text.substring(4, text.length).replace('\'', '"')
 
             val list = parse(jsonString).values.asInstanceOf[List[Any]]
 
             val innerInput = list(list.length - 3).asInstanceOf[List[Any]]
 
             def getFromInnerInput(index:Int):Any = innerInput(list(index).asInstanceOf[BigInt].intValue - 1)
+            def getTimestamp(index:Int):String = list(index).asInstanceOf[String]
 
-            def getTimestampPart(index:Int):Long = list(index).asInstanceOf[Double].toLong
-
-            for(i <- 0 until Math.floor(list.length / 11).asInstanceOf[Int]) {
+            for(i <- 0 until Math.floor(list.length / 9).asInstanceOf[Int]) {
                 try {
-                    val number = getFromInnerInput(i * 11 + 5).asInstanceOf[String].toInt
-                    val destination = getFromInnerInput(i * 11 + 6).asInstanceOf[String]
+                    val destination = getFromInnerInput(i * 9 + 5).asInstanceOf[String]
+                    val number = getFromInnerInput(i * 9 + 4).asInstanceOf[String].toInt
 
-                    val arrival = new Date(getTimestampPart(i * 11 + 2) + getTimestampPart(i * 11 + 3))
-                    val expectedArrival = new Date(getTimestampPart(i * 11 + 7) + getTimestampPart(i * 11 + 8))
+                    val arrival = new Date(decodeTime(getTimestamp(i * 9 + 2)) * 1000)
+                    val expectedArrival = new Date(decodeTime(getTimestamp(i * 9 + 6)) * 1000)
 
                     busTimes += new BusTime(number, destination, arrival, expectedArrival)
                 } catch {
@@ -74,6 +74,25 @@ object BusTime {
         }
 
         return busTimes.toList
+    }
+
+    def decodeTime(time:String):Long = {
+        val base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$"
+
+        var sum = 0L
+
+        for(i <- 0 until time.length) {
+            sum += base.indexOf(time.charAt(i)) * pow(base.length, time.length - i - 1).asInstanceOf[Long]
+        }
+
+        return sum / 1000
+    }
+
+    def main(args:Array[String]) {
+        val stops = BusTime.fromBusStop(BusStop.HAUPTBAHNHOF)
+
+        println(stops.length)
+        stops.foreach { println }
     }
 }
 
